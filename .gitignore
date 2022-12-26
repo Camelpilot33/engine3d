@@ -43,6 +43,10 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 
+#replit
+*.nix
+*.replit
+
 # Windows shortcuts
 *.lnk
 
