@@ -1,18 +1,19 @@
 var canvas = document.getElementById("display");
 var ctx = canvas.getContext("2d");
 const zoom = 10
-const [width, height] = [canvas.width / zoom, canvas.height / zoom]
+//canvas
+const C = {w:canvas.width / zoom, h:canvas.height / zoom}
 const toDeg = x => x * 180 / Math.PI
 const toRad = x => x / 180 * Math.PI
+
 // x-axis: fwd   y-axis: right  z-axis: up
-function set(x, y, i = 0) {
-	i *= 255
-	i = 1 - i / 255;
-	ctx.fillStyle = 'rgba(0,0,0,' + i + ')';
+function set(x, y, rgb=[0,0,0]) {
+	rgb=rgb.map(e=>e*0xFF)
+	ctx.fillStyle = `rgb(${rgb.toString()})`
 	ctx.fillRect(x * zoom, y * zoom, zoom, zoom);
 }
 function clear() {
-	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	ctx.clearRect(0, 0, C.w, C.h);
 }
 class vec {
 	constructor(x, y, z) {
@@ -57,13 +58,14 @@ class vec {
 		return a.x * b.x + a.y * b.y + a.z * b.z
 	}
 }
-let a = new vec(3, 4, 0)
-a.rxy = 0
-console.log(a)
-
-
-for (i = 0; i < width; i++) {
-	for (j = 0; j < height; j++) {
-		if (i % 2 | j % 2) set(i, j, (i * j / width / width))
+let O = new vec(0, 0, 0)
+//viewport
+let V={w:1,h:1,d:1}
+const CtoV=(cx,cy)=>new vec(cx*V.w/C.w,cy*V.h/C.h,V.d)
+for (i=0;i<C.w;i++) {
+	for (j=0;j<C.h;j++) {
+		set(i,j,[((i*j)/10)%1,((i+j)/10)%1,((i**j)/(j**i))%1])
 	}
 }
+
+console.info('Terminated without error')
