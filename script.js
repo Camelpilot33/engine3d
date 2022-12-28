@@ -58,6 +58,7 @@ class vec {
 		return a.x * b.x + a.y * b.y + a.z * b.z
 	}
 }
+
 let O = new vec(0, 0, 0)
 //viewport
 let V={w:1,h:1,d:1}
